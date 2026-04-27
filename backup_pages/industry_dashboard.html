@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DoMoreLabs</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        accent: "#8b5cf6",
+                        "accent-dark": "#7c3aed",
+                        "bg-dark": "#0f172a",
+                        "bg-card": "#1e293b",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn-outline {
+                 @apply bg-transparent border border-slate-700 text-white hover:bg-slate-800 transition-colors;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-dark text-white font-sans antialiased overflow-hidden selection:bg-blue-600 selection:text-white">
+    <!-- Authenticated Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0f172a] border-b border-white/10 py-4">
+        <div class="w-full px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 w-50">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/logo.png" alt="DoMoreLabs Logo" class="h-32 w-auto object-contain drop-shadow-lg scale-110 origin-left" />
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span id="user-display-name" class="text-sm font-medium text-slate-300 hidden md:block">User</span>
+                    <div
+                        class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 bg-slate-700 flex items-center justify-center">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <button onclick="logout()"
+                        class="btn-outline text-sm py-2 px-4 rounded-full flex items-center gap-2 text-red-400 hover:bg-red-500/10 border-red-500/50 cursor-pointer">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-20 h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card-bg border-r border-slate-700 h-full overflow-y-auto hidden md:block pb-20">
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    Menu
+                </h2>
+                <div class="space-y-1" id="sidebar-links">
+                    <!-- Links injected by JS based on role -->
+                </div>
+            </div>
+
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    General
+                </h2>
+                <div class="space-y-1">
+                    <a href="messages.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        Messages
+                    </a>
+                    <a href="settings.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        Settings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Role Badge -->
+            <div class="mt-auto px-4 pb-8">
+                <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-500">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Current Role</p>
+                            <p id="user-role-display" class="text-sm font-bold text-white capitalize">Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto">
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold text-white mb-2">Industry Dashboard</h1>
+                    <p class="text-slate-400">Collaborate with top talent and solve real-world problems.</p>
+                </header>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-blue-500/10 rounded-lg text-blue-400">
+                                <i data-lucide="briefcase" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-semibold text-white">Active Challenges</h3>
+                        </div>
+                        <p class="text-3xl font-bold text-white">3</p>
+                        <p class="text-sm text-slate-400">Open Problem Statements</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-semibold text-white">Talent Shortlisted</h3>
+                        </div>
+                        <p class="text-3xl font-bold text-white">15</p>
+                        <p class="text-sm text-slate-400">Potential Hires</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-purple-500/10 rounded-lg text-purple-400">
+                                <i data-lucide="layers" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-semibold text-white">Ongoing Projects</h3>
+                        </div>
+                        <p class="text-3xl font-bold text-white">5</p>
+                        <p class="text-sm text-slate-400">Mentored Teams</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-orange-500/10 rounded-lg text-orange-400">
+                                <i data-lucide="message-square" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-semibold text-white">New Proposals</h3>
+                        </div>
+                        <p class="text-3xl font-bold text-white">8</p>
+                        <p class="text-sm text-slate-400">Waiting for Review</p>
+                    </div>
+                </div>
+
+                <!-- Project Updates & Top Talent -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4">Project Updates</h3>
+                        <div class="space-y-4">
+                            <div
+                                class="flex justify-between items-start p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer">
+                                <div>
+                                    <p class="text-sm text-white font-medium">Auto-Parking System</p>
+                                    <p class="text-xs text-slate-400">Team: CyberPunk • Updated 4h ago</p>
+                                </div>
+                                <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded">On
+                                    Track</span>
+                            </div>
+                            <div
+                                class="flex justify-between items-start p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer">
+                                <div>
+                                    <p class="text-sm text-white font-medium">Smart Retail Analytics</p>
+                                    <p class="text-xs text-slate-400">Team: Innovators • Updated 1 day ago</p>
+                                </div>
+                                <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded">On
+                                    Track</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4">Top Talent Candidates</h3>
+                        <div class="space-y-4">
+                            <div
+                                class="flex items-center gap-3 border-b border-slate-700/50 pb-3 last:border-0 last:pb-0">
+                                <div class="w-8 h-8 rounded-full bg-slate-700"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white">Rahul Sharma</p>
+                                    <p class="text-xs text-slate-400">Full Stack Developer</p>
+                                </div>
+                                <button class="text-xs text-blue-400 hover:underline">View Profile</button>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 border-b border-slate-700/50 pb-3 last:border-0 last:pb-0">
+                                <div class="w-8 h-8 rounded-full bg-slate-700"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white">Priya Patel</p>
+                                    <p class="text-xs text-slate-400">Data Scientist</p>
+                                </div>
+                                <button class="text-xs text-blue-400 hover:underline">View Profile</button>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 border-b border-slate-700/50 pb-3 last:border-0 last:pb-0">
+                                <div class="w-8 h-8 rounded-full bg-slate-700"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white">Amit Singh</p>
+                                    <p class="text-xs text-slate-400">IoT Engineer</p>
+                                </div>
+                                <button class="text-xs text-blue-400 hover:underline">View Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check Auth
+        const userJson = localStorage.getItem('currentUser');
+        if (!userJson) {
+            window.location.href = 'login.html';
+        }
+
+        const user = JSON.parse(userJson);
+        document.getElementById('user-display-name').textContent = user.displayName;
+        document.getElementById('user-role-display').textContent = user.role.replace(/_/g, ' ').toLowerCase();
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Render Sidebar Links for Industry
+        const sidebarLinks = document.getElementById('sidebar-links');
+        const links = [
+            { name: 'Overview', icon: 'layout-dashboard', href: 'industry_dashboard.html' },
+            { name: 'Explore Talent', icon: 'users', href: 'industry_talent.html' },
+            { name: 'My Projects', icon: 'layers', href: 'industry_projects.html' },
+            { name: 'Challenges', icon: 'zap', href: 'industry_challenges.html' },
+            { name: 'Profile', icon: 'user', href: 'industry_profile.html' }
+        ];
+
+        links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors';
+            if (window.location.href.includes(link.href)) {
+                a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white bg-blue-600';
+            }
+            a.innerHTML = `<i data-lucide="${link.icon}" class="w-4 h-4"></i> ${link.name}`;
+            sidebarLinks.appendChild(a);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

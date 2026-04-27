@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth scroll-pt-24 lg:scroll-pt-28">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoMoreLabs</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        accent: "#8b5cf6",
+                        "accent-dark": "#7c3aed",
+                        "bg-dark": "#0f172a",
+                        "bg-card": "#1e293b",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .container {
+                @apply max-w-[1440px] mx-auto px-6 lg:px-8;
+            }
+            .section {
+                @apply py-20;
+            }
+            .heading-xl {
+                @apply text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400;
+            }
+            .heading-lg {
+                @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-white;
+            }
+            .heading-md {
+                @apply text-2xl font-semibold mb-4 text-white;
+            }
+            .text-lead {
+                @apply text-lg md:text-xl text-slate-400 mb-8;
+            }
+            .btn {
+                @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform active:scale-95 cursor-pointer;
+            }
+            .btn-primary {
+                @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-1;
+            }
+            .btn-secondary {
+                @apply bg-transparent border border-slate-700 text-white hover:border-blue-500 hover:text-blue-400;
+            }
+            .card {
+                @apply bg-[#1e293b] p-8 rounded-2xl border border-slate-700/50 transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10;
+            }
+            .btn-outline {
+                 @apply bg-transparent border border-slate-700 text-white hover:bg-slate-800 transition-colors;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-dark text-white font-sans antialiased overflow-x-hidden selection:bg-blue-600 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent py-4" id="navbar">
+        <div class="container flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="#"
+                    class="flex items-center gap-3 transition-transform duration-300 hover:scale-105 active:scale-95 group">
+                    <img src="assets/logo.png" alt="DoMoreLabs Logo"
+                        class="h-12 sm:h-16 md:h-20 max-w-[120px] sm:max-w-none w-auto object-contain drop-shadow-lg transition-transform duration-300 group-hover:rotate-2" />
+                    <span
+                        class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200 drop-shadow-sm transition-all duration-300 group-hover:from-blue-400 group-hover:to-purple-400">DoMoreLabs</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about"
+                    class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+                    About
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#ecosystem"
+                    class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+                    Ecosystem
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#institutions"
+                    class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+                    Institutions
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#faculty"
+                    class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+                    Faculty
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#students"
+                    class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+                    Students
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#lms"
+                    class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+                    LMS
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#contact"
+                    class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+                    Contact
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
+                </a>
+
+                <a href="https://domoretech.github.io/Domore/index.html" target="_blank" rel="noopener noreferrer"
+                    class="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1">
+                    Official Website
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+                <div id="auth-buttons">
+                    <a href="#contact" class="btn btn-primary text-sm py-2 px-4 rounded-full flex items-center gap-2">
+                        <i data-lucide="user-plus" class="w-4 h-4"></i>
+                        Join Us
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white" id="mobile-menu-btn">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-[#0f172a] border-b border-slate-800 transition-all duration-300">
+            <div class="container py-4 flex flex-col gap-4">
+                <a href="#about" class="text-slate-300 hover:text-white py-2 flex justify-between items-center">
+                    About
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#ecosystem" class="text-slate-300 hover:text-white py-2 flex justify-between items-center">
+                    Ecosystem
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#institutions" class="text-slate-300 hover:text-white py-2 flex justify-between items-center">
+                    Institutions
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#faculty" class="text-slate-300 hover:text-white py-2 flex justify-between items-center">
+                    Faculty
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#students" class="text-slate-300 hover:text-white py-2 flex justify-between items-center">
+                    Students
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#lms" class="text-slate-300 hover:text-white py-2 flex justify-between items-center">
+                    LMS
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#contact" class="text-slate-300 hover:text-white py-2 flex justify-between items-center">
+                    Contact
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="https://domoretech.github.io/Domore/index.html" target="_blank" rel="noopener noreferrer"
+                    class="text-blue-400 hover:text-blue-300 py-2 flex justify-between items-center">
+                    Official Website
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+                <div class="border-t border-slate-800 pt-2" id="mobile-auth-buttons">
+                    <a href="#contact" class="btn btn-primary w-full justify-center text-center">
+                        Join Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 bg-[#0f172a] z-0">
+            <div
+                class="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]">
+            </div>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"
+                style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-6">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    Transforming Engineering Education
+                </div>
+
+                <h1 class="heading-xl mb-6">
+                    Bridging Industry and Academia for <br />
+                    <span class="text-white">Real-World Innovation</span>
+                </h1>
+
+                <p class="text-lead text-lg mb-8 max-w-xl">
+                    Empowering institutions, faculty, and students with hands-on industry projects, emerging
+                    technologies, and outcome-driven learning.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contact" class="btn btn-primary text-lg px-8 py-3">
+                        Partner With Us <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+                    </a>
+                    <a href="#ecosystem" class="btn btn-secondary text-lg px-8 py-3">
+                        Explore Programs
+                    </a>
+                </div>
+
+
+            </div>
+
+            <div class="relative">
+                <div
+                    class="relative z-10 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700 rounded-2xl p-8 shadow-2xl">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700/50">
+                            <i data-lucide="globe" class="w-10 h-10 text-blue-400 mb-4"></i>
+                            <h3 class="text-lg font-bold text-white mb-2">Global Access</h3>
+                            <p class="text-sm text-slate-400">Connect with industry leaders worldwide.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700/50">
+                            <i data-lucide="layers" class="w-10 h-10 text-purple-400 mb-4"></i>
+                            <h3 class="text-lg font-bold text-white mb-2">Digital Twin</h3>
+                            <p class="text-sm text-slate-400">Powered by Xify platform for simulation.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700/50 col-span-2">
+                            <i data-lucide="cpu" class="w-10 h-10 text-emerald-400 mb-4"></i>
+                            <h3 class="text-lg font-bold text-white mb-2">Hands-on Technology</h3>
+                            <p class="text-sm text-slate-400">AR/VR, AI, IoT, and Cloud Computing direct exposure.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decorative floating elements -->
+                <div class="absolute -top-10 -right-10 w-24 h-24 bg-blue-500/10 backdrop-blur-md rounded-full border border-blue-500/30 flex items-center justify-center z-20 animate-bounce"
+                    style="animation-duration: 4s;">
+                    <span class="text-blue-400 font-bold">AI</span>
+                </div>
+
+                <div class="absolute -bottom-10 -left-10 w-20 h-20 bg-purple-500/10 backdrop-blur-md rounded-full border border-purple-500/30 flex items-center justify-center z-20 animate-bounce"
+                    style="animation-duration: 5s;">
+                    <span class="text-purple-400 font-bold">AR/VR</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section bg-[#0f172a]">
+        <div class="container">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="heading-lg">About <span class="text-blue-500">DoMoreLabs</span></h2>
+                <p class="text-lead">
+                    We bridge the gap between theoretical knowledge and practical application, fostering a generation of
+                    innovators ready for the future of technology.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-8 text-center hover:bg-slate-800/50">
+                    <div class="bg-slate-700/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="eye" class="w-8 h-8 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Vision</h3>
+                    <p class="text-slate-400">Enable institutions to integrate real industry problems into academic
+                        learning.</p>
+                </div>
+                <div class="card p-8 text-center hover:bg-slate-800/50">
+                    <div class="bg-slate-700/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="target" class="w-8 h-8 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Mission</h3>
+                    <p class="text-slate-400">Create a structured ecosystem where students, professors, and industry
+                        collaborate.</p>
+                </div>
+                <div class="card p-8 text-center hover:bg-slate-800/50">
+                    <div class="bg-slate-700/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="award" class="w-8 h-8 text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-white">Heritage</h3>
+                    <p class="text-slate-400">Backed by DoMoreTech Consultancy Services. Launched in engineering
+                        colleges in Coimbatore.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ecosystem -->
+    <section id="ecosystem" class="section bg-[#0b1120] relative overflow-hidden">
+        <!-- Abstract Background -->
+        <div class="absolute top-0 right-0 w-1/2 h-full opacity-5 bg-gradient-to-l from-blue-600 to-transparent"></div>
+
+        <div class="container relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="heading-lg">Our Ecosystem Model</h2>
+                <p class="text-lead max-w-2xl mx-auto">
+                    A seamless integration of industry needs, faculty expertise, student talent, and cutting-edge
+                    technology platforms.
+                </p>
+            </div>
+
+            <div class="relative flex flex-col items-center justify-center">
+                <!-- Central Connection Line -->
+                <div
+                    class="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent hidden md:block">
+                </div>
+                <div
+                    class="absolute left-1/2 top-0 h-full w-1 bg-gradient-to-b from-transparent via-blue-500/50 to-transparent hidden md:block">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-4xl relative z-20">
+                    <!-- Industry Node -->
+                    <div
+                        class="card flex flex-col items-center text-center p-8 bg-[#1e293b]/90 backdrop-blur border-blue-500/30 hover:scale-105 transition-transform duration-300">
+                        <i data-lucide="briefcase" class="w-12 h-12 text-blue-400 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-white">Industry</h3>
+                        <ul class="text-sm text-slate-400 space-y-2">
+                            <li>Real-world Projects</li>
+                            <li>Problem Statements</li>
+                            <li>Consulting Needs</li>
+                        </ul>
+                    </div>
+
+                    <!-- Faculty Node -->
+                    <div
+                        class="card flex flex-col items-center text-center p-8 bg-[#1e293b]/90 backdrop-blur border-purple-500/30 hover:scale-105 transition-transform duration-300">
+                        <i data-lucide="users" class="w-12 h-12 text-purple-400 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-white">Faculty</h3>
+                        <ul class="text-sm text-slate-400 space-y-2">
+                            <li>Research Collaboration</li>
+                            <li>Innovation Mentoring</li>
+                            <li>Curriculum Integration</li>
+                        </ul>
+                    </div>
+
+                    <!-- Students Node -->
+                    <div
+                        class="card flex flex-col items-center text-center p-8 bg-[#1e293b]/90 backdrop-blur border-emerald-500/30 hover:scale-105 transition-transform duration-300">
+                        <i data-lucide="graduation-cap" class="w-12 h-12 text-emerald-400 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-white">Students</h3>
+                        <ul class="text-sm text-slate-400 space-y-2">
+                            <li>Practical Exposure</li>
+                            <li>Internships</li>
+                            <li>Skill Development</li>
+                        </ul>
+                    </div>
+
+                    <!-- Technology Node -->
+                    <div
+                        class="card flex flex-col items-center text-center p-8 bg-[#1e293b]/90 backdrop-blur border-orange-500/30 hover:scale-105 transition-transform duration-300">
+                        <i data-lucide="monitor" class="w-12 h-12 text-orange-400 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-white">Technology Platforms</h3>
+                        <ul class="text-sm text-slate-400 space-y-2">
+                            <li>Xify Digital Twin</li>
+                            <li>Cloud Infrastructure</li>
+                            <li>Development Tools</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Central Hub -->
+                <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/50 z-30 hidden md:flex">
+                    <span class="font-bold text-white text-lg">HUB</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Institutions -->
+    <section id="institutions" class="section bg-[#0f172a]">
+        <div class="container grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="heading-lg">For <span class="text-blue-500">Institutions</span></h2>
+                <p class="text-lead mb-8">
+                    Empower your institution with industry-grade infrastructure, curriculum, and partnerships that drive
+                    accreditation and student success.
+                </p>
+
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="text-emerald-400 w-6 h-6 shrink-0"></i>
+                        <span class="text-lg text-slate-200">Curriculum Integration Support</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="text-emerald-400 w-6 h-6 shrink-0"></i>
+                        <span class="text-lg text-slate-200">Industry-Driven Lab Programs</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="text-emerald-400 w-6 h-6 shrink-0"></i>
+                        <span class="text-lg text-slate-200">Outcome-Based Education Alignment</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="text-emerald-400 w-6 h-6 shrink-0"></i>
+                        <span class="text-lg text-slate-200">Accreditation Support (NBA / NAAC)</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="text-emerald-400 w-6 h-6 shrink-0"></i>
+                        <span class="text-lg text-slate-200">Structured MoU Models</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="text-emerald-400 w-6 h-6 shrink-0"></i>
+                        <span class="text-lg text-slate-200">Internship Pipelines</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="text-emerald-400 w-6 h-6 shrink-0"></i>
+                        <span class="text-lg text-slate-200">Innovation Cell Enablement</span>
+                    </div>
+                </div>
+
+                <a href="#contact" class="btn btn-primary">
+                    Request Institutional Partnership <i data-lucide="chevron-right" class="w-5 h-5 ml-1"></i>
+                </a>
+            </div>
+
+            <div
+                class="relative h-full min-h-[400px] bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 group">
+                <!-- Animated Background Gradients -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-blue-900/40 via-purple-900/20 to-slate-900/80 z-0">
+                </div>
+
+                <!-- Glowing Orbs (Animated) -->
+                <div
+                    class="absolute top-1/4 right-1/4 w-32 h-32 bg-blue-500/30 rounded-full blur-2xl animate-pulse z-0">
+                </div>
+                <div class="absolute bottom-1/3 left-1/4 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl animate-pulse z-0"
+                    style="animation-duration: 4s;"></div>
+
+                <!-- Abstract Structural Graphic -->
+                <div
+                    class="absolute inset-0 z-10 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity duration-500">
+                    <svg class="w-full h-full p-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Connecting Lines -->
+                        <path d="M40 100 L160 100 M100 40 L100 160 M60 60 L140 140 M60 140 L140 60" stroke="#3b82f6"
+                            stroke-width="0.5" stroke-dasharray="4"
+                            class="opacity-30 animate-[spin_20s_linear_infinite]" />
+
+                        <!-- Central Nodes -->
+                        <circle cx="100" cy="100" r="25" fill="none" stroke="#8b5cf6" stroke-width="2"
+                            class="animate-ping opacity-20" style="animation-duration: 3s;" />
+                        <circle cx="100" cy="100" r="15" fill="#2563eb"
+                            class="drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]" />
+
+                        <!-- Orbital Nodes -->
+                        <g class="animate-[spin_10s_linear_infinite]" transform-origin="100 100">
+                            <circle cx="100" cy="40" r="6" fill="#10b981" />
+                            <circle cx="160" cy="100" r="8" fill="#a855f7" />
+                            <circle cx="100" cy="160" r="6" fill="#f59e0b" />
+                            <circle cx="40" cy="100" r="8" fill="#ec4899" />
+                            <path d="M100 45 L100 155 M45 100 L155 100" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="1" />
+                        </g>
+
+                        <!-- Outer Orbit -->
+                        <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+                        <g class="animate-[spin_15s_linear_infinite_reverse]" transform-origin="100 100">
+                            <circle cx="40" cy="40" r="4" fill="#60a5fa" />
+                            <circle cx="160" cy="160" r="4" fill="#c084fc" />
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="absolute bottom-0 left-0 w-full p-8 z-20">
+                    <div
+                        class="bg-slate-900/80 backdrop-blur-md p-6 rounded-xl border border-slate-700/80 hover:border-blue-500/50 transition-colors duration-300">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="network" class="w-5 h-5 text-blue-400"></i>
+                            <h3 class="text-xl font-bold text-white">Partner Network</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm">Join a growing network of forward-thinking institutions
+                            transforming engineering education.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Faculty -->
+    <section id="faculty" class="section bg-[#0b1120]">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="heading-lg">For <span class="text-purple-500">Faculty</span></h2>
+                <p class="text-lead max-w-2xl mx-auto">
+                    Elevate your academic career with direct industry engagement, research opportunities, and access to
+                    advanced platforms like Xify Digital Twin.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="card p-6 border-t-4 border-t-purple-500 hover:scale-105 transition-transform duration-300">
+                    <div class="mb-4">
+                        <i data-lucide="book-open" class="w-8 h-8 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Research Collaboration</h3>
+                    <p class="text-sm text-slate-400">Partner with industry on cutting-edge research projects.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="card p-6 border-t-4 border-t-purple-500 hover:scale-105 transition-transform duration-300">
+                    <div class="mb-4">
+                        <i data-lucide="lightbulb" class="w-8 h-8 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Innovation Mentoring</h3>
+                    <p class="text-sm text-slate-400">Guide student teams in solving real-world problems.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="card p-6 border-t-4 border-t-purple-500 hover:scale-105 transition-transform duration-300">
+                    <div class="mb-4">
+                        <i data-lucide="users" class="w-8 h-8 text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Consulting</h3>
+                    <p class="text-sm text-slate-400">Opportunities to provide expert consultancy to industry.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="card p-6 border-t-4 border-t-purple-500 hover:scale-105 transition-transform duration-300">
+                    <div class="mb-4">
+                        <i data-lucide="bar-chart" class="w-8 h-8 text-orange-400"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Access to Datasets</h3>
+                    <p class="text-sm text-slate-400">Work with real industry data for analysis and publication.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Students -->
+    <section id="students" class="section bg-[#0f172a] relative">
+        <div class="container grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <!-- Visual Representation -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div
+                        class="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-2xl text-white transform translate-y-8">
+                        <span class="text-4xl font-bold block mb-2">100%</span>
+                        <span class="text-sm opacity-80">Practical Learning</span>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-600 to-purple-800 p-6 rounded-2xl text-white">
+                        <span class="text-4xl font-bold block mb-2">Job</span>
+                        <span class="text-sm opacity-80">Ready Skills</span>
+                    </div>
+                    <div
+                        class="bg-gradient-to-br from-emerald-600 to-emerald-800 p-6 rounded-2xl text-white transform translate-y-8">
+                        <span class="text-4xl font-bold block mb-2">Live</span>
+                        <span class="text-sm opacity-80">Projects</span>
+                    </div>
+                    <div class="bg-gradient-to-br from-orange-600 to-orange-800 p-6 rounded-2xl text-white">
+                        <span class="text-4xl font-bold block mb-2">Pro</span>
+                        <span class="text-sm opacity-80">Mentorship</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-1 lg:order-2">
+                <h2 class="heading-lg">For <span class="text-emerald-400">Students</span></h2>
+                <p class="text-lead mb-8">
+                    Go beyond textbooks. Get hands-on experience with the technologies that power the future and build a
+                    portfolio that gets you hired.
+                </p>
+
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <li
+                        class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        <span class="text-sm font-medium text-white">Real Industry Internships</span>
+                    </li>
+                    <li
+                        class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        <span class="text-sm font-medium text-white">Live Implementation Projects</span>
+                    </li>
+                    <li
+                        class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        <span class="text-sm font-medium text-white">Digital Twin (Xify Platform)</span>
+                    </li>
+                    <li
+                        class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        <span class="text-sm font-medium text-white">AR / VR / XR Development</span>
+                    </li>
+                    <li
+                        class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        <span class="text-sm font-medium text-white">Microsoft Power Platform</span>
+                    </li>
+                    <li
+                        class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        <span class="text-sm font-medium text-white">AI Application Development</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- LMS Section -->
+    <section id="lms" class="section bg-[#0f172a] border-t border-slate-800">
+        <div class="container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    Learning Management System
+                </div>
+                <h2 class="heading-lg">Elevate Learning with Our <br class="hidden sm:block" /><span class="text-purple-500">LMS Platform</span></h2>
+                <p class="text-lead mb-8">
+                    Access a comprehensive suite of courses, track your progress, and engage with interactive content designed to accelerate your engineering journey.
+                </p>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:shadow-purple-500/25 border-none">
+                    Access LMS <i data-lucide="external-link" class="w-5 h-5 ml-2"></i>
+                </a>
+            </div>
+            <div class="relative">
+                <div class="card bg-slate-800/80 p-8 border-purple-500/30 shadow-2xl shadow-purple-500/10">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="flex flex-col gap-3">
+                            <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400">
+                                <i data-lucide="video" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg">Interactive Video Lectures</h4>
+                            <p class="text-slate-400 text-sm">Learn from industry experts with high-quality, engaging video content.</p>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400">
+                                <i data-lucide="check-square" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg">Assessments & Quizzes</h4>
+                            <p class="text-slate-400 text-sm">Test your knowledge with practical assessments and instant feedback.</p>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400">
+                                <i data-lucide="award" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg">Certifications</h4>
+                            <p class="text-slate-400 text-sm">Earn recognized certificates upon successful completion of your courses.</p>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center text-orange-400">
+                                <i data-lucide="bar-chart" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg">Progress Tracking</h4>
+                            <p class="text-slate-400 text-sm">Monitor your learning journey with detailed analytics and progress reports.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section bg-[#0b1120]">
+        <div class="container">
+            <div class="text-center mb-16">
+                <h2 class="heading-lg">Technology Stack <span class="text-blue-500">Exposure</span></h2>
+                <p class="text-lead mx-auto max-w-2xl">
+                    We ensure students work with the same tools and platforms used by top enterprises.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Low Code -->
+                <div
+                    class="bg-slate-900/50 p-6 rounded-xl border border-blue-500/30 hover:bg-slate-800 transition-colors">
+                    <h3 class="text-xl font-bold mb-4 text-blue-400">Low Code</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Microsoft
+                            Power Platform</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">SharePoint</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Power
+                            Apps</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Power
+                            Automate</span>
+                    </div>
+                </div>
+                <!-- 3D / Immersive -->
+                <div
+                    class="bg-slate-900/50 p-6 rounded-xl border border-purple-500/30 hover:bg-slate-800 transition-colors">
+                    <h3 class="text-xl font-bold mb-4 text-purple-400">3D / Immersive</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Blender</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Verge
+                            3D</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">WebXR</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Unity</span>
+                    </div>
+                </div>
+                <!-- High Code -->
+                <div
+                    class="bg-slate-900/50 p-6 rounded-xl border border-emerald-500/30 hover:bg-slate-800 transition-colors">
+                    <h3 class="text-xl font-bold mb-4 text-emerald-400">High Code</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Laravel</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Python</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">React</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">NGINX</span>
+                    </div>
+                </div>
+                <!-- Cloud & DevOps -->
+                <div
+                    class="bg-slate-900/50 p-6 rounded-xl border border-orange-500/30 hover:bg-slate-800 transition-colors">
+                    <h3 class="text-xl font-bold mb-4 text-orange-400">Cloud & DevOps</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Oracle
+                            Cloud</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Docker</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Kubernetes</span>
+                        <span
+                            class="text-xs font-semibold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Infrastructure
+                            as Code</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Engagement -->
+    <section class="section bg-[#0f172a] relative overflow-hidden">
+        <div class="container">
+            <div class="text-center mb-16">
+                <h2 class="heading-lg">Engagement <span class="text-blue-500">Model</span></h2>
+                <p class="text-lead max-w-2xl mx-auto">
+                    A structured 5-step process ensuring success for all stakeholders.
+                </p>
+            </div>
+
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div
+                    class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-blue-900 via-blue-500 to-blue-900 transform -translate-y-1/2 z-0">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-16 h-16 rounded-full bg-slate-800 border-4 border-[#0f172a] flex items-center justify-center text-blue-400 mb-4 shadow-lg ring-4 ring-blue-500/20">
+                            <i data-lucide="clipboard-check" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Institution Onboarding</h3>
+                        <p class="text-sm text-slate-400 max-w-[150px]">MoU signing and infrastructure setup.</p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-16 h-16 rounded-full bg-slate-800 border-4 border-[#0f172a] flex items-center justify-center text-blue-400 mb-4 shadow-lg ring-4 ring-blue-500/20">
+                            <i data-lucide="users" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Faculty Alignment</h3>
+                        <p class="text-sm text-slate-400 max-w-[150px]">Training on platforms and methodologies.</p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-16 h-16 rounded-full bg-slate-800 border-4 border-[#0f172a] flex items-center justify-center text-blue-400 mb-4 shadow-lg ring-4 ring-blue-500/20">
+                            <i data-lucide="search" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Problem Identification</h3>
+                        <p class="text-sm text-slate-400 max-w-[150px]">Selecting industry use cases for students.</p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-16 h-16 rounded-full bg-slate-800 border-4 border-[#0f172a] flex items-center justify-center text-blue-400 mb-4 shadow-lg ring-4 ring-blue-500/20">
+                            <i data-lucide="play" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Project Execution</h3>
+                        <p class="text-sm text-slate-400 max-w-[150px]">Hands-on development with mentorship.</p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div
+                            class="w-16 h-16 rounded-full bg-slate-800 border-4 border-[#0f172a] flex items-center justify-center text-blue-400 mb-4 shadow-lg ring-4 ring-blue-500/20">
+                            <i data-lucide="bar-chart-2" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-white">Outcome Measurement</h3>
+                        <p class="text-sm text-slate-400 max-w-[150px]">Impact assessment and certification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="section bg-gradient-to-b from-[#0b1120] to-[#0f172a]">
+        <div class="container">
+            <div class="text-center mb-12">
+                <h2 class="heading-lg">Impact & <span class="text-emerald-400">Outcomes</span></h2>
+                <p class="text-lead max-w-2xl mx-auto">
+                    Measurable results that drive institutional growth and student careers.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div
+                    class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700/50 text-center hover:-translate-y-2 transition-transform duration-300">
+                    <i data-lucide="trending-up" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-white">Employability</h3>
+                    <p class="text-slate-400">Significant improvement in student placement rates.</p>
+                </div>
+                <div
+                    class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700/50 text-center hover:-translate-y-2 transition-transform duration-300">
+                    <i data-lucide="award" class="w-12 h-12 text-purple-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-white">Industry Readiness</h3>
+                    <p class="text-slate-400">Graduates equipped with Day-1 deployable skills.</p>
+                </div>
+                <div
+                    class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700/50 text-center hover:-translate-y-2 transition-transform duration-300">
+                    <i data-lucide="file-text" class="w-12 h-12 text-orange-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-white">Publications</h3>
+                    <p class="text-slate-400">Research papers published by faculty and students.</p>
+                </div>
+                <div
+                    class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700/50 text-center hover:-translate-y-2 transition-transform duration-300">
+                    <i data-lucide="rocket" class="w-12 h-12 text-emerald-400 mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-white">Innovation</h3>
+                    <p class="text-slate-400">Startup enablement and patent filing support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact" class="bg-[#0b1120] pt-20 border-t border-slate-800">
+        <div class="container">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <div>
+                    <h2 class="heading-lg mb-6">Start Your <br /><span class="text-blue-500">Transformation
+                            Journey</span></h2>
+                    <p class="text-lead mb-8">
+                        Partner with DoMoreLabs to bring industry-grade innovation to your campus. Fill out the form and
+                        our team will get in touch.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <i data-lucide="map-pin" class="text-purple-400 mt-1 w-6 h-6"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Headquarters</h4>
+                                <p class="text-slate-400">70, race course road, race course,<br />Gopalapuram,
+                                    Coimbatore,
+                                    Tamil Nadu. 641018</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <i data-lucide="mail" class="text-blue-400 mt-1 w-6 h-6"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Email Us</h4>
+                                <p class="text-slate-400">info@domorewithus.com</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <i data-lucide="phone" class="text-emerald-400 mt-1 w-6 h-6"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Call Us</h4>
+                                <p class="text-slate-400">7708 757 575</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700">
+                    <form id="contact-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-slate-400 mb-1">Name</label>
+                                <input type="text" name="name" id="contact-name" required
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-slate-400 mb-1">Institution / Organization</label>
+                                <input type="text" name="institution" id="contact-institution" required
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-slate-400 mb-1">Role</label>
+                                <input type="text" name="role" id="contact-role" required
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-slate-400 mb-1">Email</label>
+                                <input type="email" name="email" id="contact-email" required
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-1">Phone</label>
+                            <input type="tel" name="phone" id="contact-phone"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-1">Message</label>
+                            <textarea name="message" id="contact-message" rows="4"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none"></textarea>
+                        </div>
+
+                        <!-- Feedback Message Area -->
+                        <div id="contact-feedback" class="hidden text-sm py-2 px-4 rounded-lg"></div>
+
+                        <button type="submit" id="contact-submit-btn"
+                            class="btn btn-primary w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span>Send Inquiry</span>
+                            <i data-lucide="send" class="w-5 h-5 ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </footer>
+
+    <!-- Full Footer Section -->
+    <footer class="bg-[#050b14] pt-16 pb-8 border-t border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+
+                <!-- Brand & About -->
+                <div class="space-y-4">
+                    <a href="#" class="flex items-center gap-2 mb-6 pointer-events-none">
+                        <img src="assets/logo.png" alt="DoMoreLabs Logo"
+                            class="h-10 w-auto object-contain drop-shadow-lg" />
+                        <span class="text-xl font-extrabold tracking-tight text-white drop-shadow-sm">DoMoreLabs</span>
+                    </a>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Transforming engineering education by bridging the gap between industry and academia through
+                        hands-on, outcome-driven learning powered by next-generation technology.
+                    </p>
+                    <div class="flex gap-4 pt-4">
+                        <a href="https://www.linkedin.com/company/domoretech/posts/?feedView=all" target="_blank"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-800 hover:text-white transition-colors">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://domoretech.github.io/Domore/index.html" target="_blank"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
+                            <i data-lucide="globe" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about"
+                                class="text-slate-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2"><i
+                                    data-lucide="chevron-right" class="w-3 h-3"></i> About Us</a></li>
+                        <li><a href="#ecosystem"
+                                class="text-slate-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2"><i
+                                    data-lucide="chevron-right" class="w-3 h-3"></i> The Ecosystem</a></li>
+                        <li><a href="#institutions"
+                                class="text-slate-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2"><i
+                                    data-lucide="chevron-right" class="w-3 h-3"></i> For Institutions</a></li>
+                        <li><a href="#faculty"
+                                class="text-slate-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2"><i
+                                    data-lucide="chevron-right" class="w-3 h-3"></i> For Faculty</a></li>
+                        <li><a href="#students"
+                                class="text-slate-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2"><i
+                                    data-lucide="chevron-right" class="w-3 h-3"></i> For Students</a></li>
+                        <li><a href="#lms"
+                                class="text-slate-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2"><i
+                                    data-lucide="chevron-right" class="w-3 h-3"></i> LMS</a></li>
+                    </ul>
+                </div>
+
+                <!-- Platforms -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-lg">Our Platforms</h4>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="https://xify.in" target="_blank" rel="noopener noreferrer"
+                                class="text-slate-400 hover:text-emerald-400 transition-colors text-sm flex items-center gap-2">
+                                <i data-lucide="external-link" class="w-3 h-3"></i> Xify Digital Twin
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="text-slate-400 hover:text-emerald-400 transition-colors text-sm flex items-center gap-2">
+                                <i data-lucide="external-link" class="w-3 h-3"></i> Xelify
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://domoretech.github.io/Domore/index.html" target="_blank" rel="noopener noreferrer"
+                                class="text-slate-400 hover:text-blue-400 transition-colors text-sm flex items-center gap-2">
+                                <i data-lucide="external-link" class="w-3 h-3"></i> DoMoreTech Consultancy
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-lg">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="text-blue-500 w-5 h-5 shrink-0 mt-0.5"></i>
+                            <span class="text-slate-400 text-sm">70, race course road, race course,<br>Gopalapuram,
+                                Coimbatore,<br>Tamil Nadu. 641018</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="text-blue-500 w-5 h-5 shrink-0"></i>
+                            <a href="tel:7708757575"
+                                class="text-slate-400 hover:text-white transition-colors text-sm">7708 757 575</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="text-blue-500 w-5 h-5 shrink-0"></i>
+                            <a href="mailto:info@domorewithus.com"
+                                class="text-slate-400 hover:text-white transition-colors text-sm">info@domorewithus.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Copyright & Legal -->
+            <div
+                class="border-t border-slate-800/80 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-500 text-xs text-center md:text-left">
+                    &copy; 2026 DoMoreTech Consultancy Services Private Limited. All rights reserved.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-xs">
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
+                    <span class="text-slate-700">|</span>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors">Terms of Service</a>
+                    <span class="text-slate-700">|</span>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Logic -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

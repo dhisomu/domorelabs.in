@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Students - DoMoreLabs</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        accent: "#8b5cf6",
+                        "accent-dark": "#7c3aed",
+                        "bg-dark": "#0f172a",
+                        "bg-card": "#1e293b",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-bg-dark text-white font-sans antialiased overflow-hidden selection:bg-blue-600 selection:text-white">
+    <!-- Authenticated Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0f172a] border-b border-white/10 py-4">
+        <div class="w-full px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 w-50">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/logo.png" alt="DoMoreLabs Logo" class="h-32 w-auto object-contain drop-shadow-lg scale-110 origin-left" />
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span id="user-display-name" class="text-sm font-medium text-slate-300 hidden md:block">User</span>
+                    <div
+                        class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 bg-slate-700 flex items-center justify-center">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <button onclick="logout()"
+                        class="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors cursor-pointer border border-red-500/30 rounded-full px-4 py-2 hover:bg-red-500/10">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-20 h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card-bg border-r border-slate-700 h-full overflow-y-auto hidden md:block pb-20">
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    Menu
+                </h2>
+                <div class="space-y-1" id="sidebar-links">
+                    <!-- Links injected by JS based on role -->
+                </div>
+            </div>
+
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    General
+                </h2>
+                <div class="space-y-1">
+                    <a href="messages.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        Messages
+                    </a>
+                    <a href="settings.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        Settings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Role Badge -->
+            <div class="mt-auto px-4 pb-8">
+                <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-500">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Current Role</p>
+                            <p id="user-role-display" class="text-sm font-bold text-white capitalize">Faculty</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-3xl font-bold text-white">My Students</h1>
+                    <button
+                        class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                        Add Student
+                    </button>
+                </div>
+
+                <div class="flex gap-4 mb-8">
+                    <div class="relative flex-1">
+                        <i data-lucide="search"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                        <input type="text" placeholder="Search students..."
+                            class="w-full bg-slate-800/50 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-blue-500 placeholder:text-slate-500">
+                    </div>
+                    <button
+                        class="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-slate-300 flex items-center gap-2 hover:bg-slate-700 transition-colors">
+                        <i data-lucide="filter" class="w-5 h-5"></i>
+                        Filter
+                    </button>
+                </div>
+
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-900/50 text-slate-400 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-4">Name</th>
+                                    <th class="p-4">Program</th>
+                                    <th class="p-4">Year</th>
+                                    <th class="p-4">Progress</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-700">
+                                <tr class="hover:bg-slate-800/50 transition-colors">
+                                    <td class="p-4 flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-white">
+                                            R
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-white">Rahul Sharma</div>
+                                            <div class="text-xs text-slate-400">rahul.s@institute.edu</div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-slate-300">B.Tech CS</td>
+                                    <td class="p-4 text-slate-300">3rd</td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                <div class="h-full bg-blue-500 rounded-full" style="width: 75%"></div>
+                                            </div>
+                                            <span class="text-xs text-slate-400">75%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-medium border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="text-slate-400 hover:text-blue-400 p-1">
+                                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                            </button>
+                                            <button class="text-slate-400 hover:text-white p-1">
+                                                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/50 transition-colors">
+                                    <td class="p-4 flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-white">
+                                            P
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-white">Priya Patel</div>
+                                            <div class="text-xs text-slate-400">priya.p@institute.edu</div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-slate-300">B.Tech CS</td>
+                                    <td class="p-4 text-slate-300">3rd</td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                <div class="h-full bg-emerald-500 rounded-full" style="width: 92%">
+                                                </div>
+                                            </div>
+                                            <span class="text-xs text-slate-400">92%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-medium border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="text-slate-400 hover:text-blue-400 p-1">
+                                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                            </button>
+                                            <button class="text-slate-400 hover:text-white p-1">
+                                                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/50 transition-colors">
+                                    <td class="p-4 flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-white">
+                                            A
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-white">Amit Kumar</div>
+                                            <div class="text-xs text-slate-400">amit.k@institute.edu</div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-slate-300">M.Tech AI</td>
+                                    <td class="p-4 text-slate-300">1st</td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                <div class="h-full bg-orange-500 rounded-full" style="width: 45%"></div>
+                                            </div>
+                                            <span class="text-xs text-slate-400">45%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-medium border bg-red-500/10 text-red-400 border-red-500/20">
+                                            At Risk
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="text-slate-400 hover:text-blue-400 p-1">
+                                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                            </button>
+                                            <button class="text-slate-400 hover:text-white p-1">
+                                                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/50 transition-colors">
+                                    <td class="p-4 flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-white">
+                                            S
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-white">Sneha Gupta</div>
+                                            <div class="text-xs text-slate-400">sneha.g@institute.edu</div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-slate-300">B.Tech EC</td>
+                                    <td class="p-4 text-slate-300">4th</td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                <div class="h-full bg-emerald-500 rounded-full" style="width: 88%">
+                                                </div>
+                                            </div>
+                                            <span class="text-xs text-slate-400">88%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-medium border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="text-slate-400 hover:text-blue-400 p-1">
+                                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                            </button>
+                                            <button class="text-slate-400 hover:text-white p-1">
+                                                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/50 transition-colors">
+                                    <td class="p-4 flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-white">
+                                            V
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-white">Vikram Singh</div>
+                                            <div class="text-xs text-slate-400">vikram.s@institute.edu</div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-slate-300">B.Tech CS</td>
+                                    <td class="p-4 text-slate-300">2nd</td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                <div class="h-full bg-blue-500 rounded-full" style="width: 60%"></div>
+                                            </div>
+                                            <span class="text-xs text-slate-400">60%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-medium border bg-slate-500/10 text-slate-400 border-slate-500/20">
+                                            Inactive
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="text-slate-400 hover:text-blue-400 p-1">
+                                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                            </button>
+                                            <button class="text-slate-400 hover:text-white p-1">
+                                                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check Auth
+        const userJson = localStorage.getItem('currentUser');
+        if (!userJson) {
+            window.location.href = 'login.html';
+        }
+
+        const user = JSON.parse(userJson);
+        document.getElementById('user-display-name').textContent = user.displayName;
+        document.getElementById('user-role-display').textContent = 'Faculty';
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Render Sidebar Links for Faculty
+        const sidebarLinks = document.getElementById('sidebar-links');
+        const links = [
+            { name: 'Overview', icon: 'layout-dashboard', href: 'faculty_dashboard.html' },
+            { name: 'My Students', icon: 'users', href: 'faculty_students.html' },
+            { name: 'Projects', icon: 'layers', href: 'faculty_projects.html' },
+            { name: 'Research', icon: 'microscope', href: 'faculty_research.html' },
+            { name: 'Evaluations', icon: 'clipboard-check', href: '#' }
+        ];
+
+        links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors';
+            if (window.location.href.includes(link.href)) {
+                a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white bg-blue-600';
+            }
+            a.innerHTML = `<i data-lucide="${link.icon}" class="w-4 h-4"></i> ${link.name}`;
+            sidebarLinks.appendChild(a);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
