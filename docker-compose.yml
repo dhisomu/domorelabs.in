@@ -1,0 +1,26 @@
+name: dml-dev
+
+services:
+  dml-dev-app:
+    build: .
+    container_name: dev.domorelabs.in
+    restart: always
+    env_file:
+      - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dml-dev.rule=Host(`dev.domorelabs.in`)"
+      - "traefik.http.routers.dml-dev.tls=true"
+      - "traefik.http.routers.dml-dev.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.dml-dev.loadbalancer.server.port=8000"
+    networks:
+      dml-net:
+        ipv4_address: 172.40.2.10
+
+networks:
+  dml-net:
+    driver: bridge
+    name: dml-dev-net
+    ipam:
+      config:
+        - subnet: 172.40.2.0/24

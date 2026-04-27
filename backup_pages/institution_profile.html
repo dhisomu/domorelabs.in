@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - DoMoreLabs</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        accent: "#8b5cf6",
+                        "accent-dark": "#7c3aed",
+                        "bg-dark": "#0f172a",
+                        "bg-card": "#1e293b",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn-primary {
+                @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center;
+            }
+            .btn-outline {
+                @apply bg-transparent border border-slate-700 text-white hover:bg-slate-800 transition-colors py-2 px-4 rounded-lg;
+            }
+            .tab-btn {
+                @apply px-4 py-2 text-sm font-medium text-slate-400 hover:text-white border-b-2 border-transparent transition-colors;
+            }
+            .tab-btn.active {
+                @apply text-blue-400 border-blue-400;
+            }
+            .tab-content {
+                display: none;
+            }
+            .tab-content.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-dark text-white font-sans antialiased overflow-hidden selection:bg-blue-600 selection:text-white">
+    <!-- Authenticated Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0f172a] border-b border-white/10 py-4">
+        <div class="w-full px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 w-50">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/logo.png" alt="DoMoreLabs Logo" class="h-32 w-auto object-contain drop-shadow-lg scale-110 origin-left" />
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span id="user-display-name" class="text-sm font-medium text-slate-300 hidden md:block">User</span>
+                    <div
+                        class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 bg-slate-700 flex items-center justify-center">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <button onclick="logout()"
+                        class="btn-outline text-sm !rounded-full flex items-center gap-2 text-red-400 hover:bg-red-500/10 border-red-500/50 cursor-pointer">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-20 h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card-bg border-r border-slate-700 h-full overflow-y-auto hidden md:block pb-20">
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    Menu
+                </h2>
+                <div class="space-y-1" id="sidebar-links">
+                    <!-- Links injected by JS -->
+                </div>
+            </div>
+
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    General
+                </h2>
+                <div class="space-y-1">
+                    <a href="messages.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        Messages
+                    </a>
+                    <a href="settings.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        Settings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Role Badge -->
+            <div class="mt-auto px-4 pb-8">
+                <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-500">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Current Role</p>
+                            <p id="user-role-display" class="text-sm font-bold text-white capitalize">Institution</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-5xl mx-auto space-y-6">
+                <!-- Profile Header -->
+                <div class="bg-bg-card border border-slate-700 rounded-2xl overflow-hidden relative">
+                    <div class="h-32 bg-gradient-to-r from-blue-600/50 to-purple-600/50"></div>
+                    <div class="px-8 pb-8 pt-4">
+                        <div class="flex flex-col md:flex-row gap-6 items-start md:items-end -mt-16">
+                            <div
+                                class="w-24 h-24 rounded-2xl bg-slate-800 border-4 border-bg-card flex items-center justify-center text-3xl font-bold">
+                                GI
+                            </div>
+                            <div class="flex-1">
+                                <h1 class="text-3xl font-bold text-white">Global Institute of Technology</h1>
+                                <p class="text-blue-400 flex items-center gap-2 font-medium mt-1">
+                                    <i data-lucide="building-2" class="w-4 h-4"></i> University Affiliate
+                                </p>
+                            </div>
+                            <div class="flex gap-3 mt-4 md:mt-0">
+                                <button class="btn-outline gap-2 font-medium"><i data-lucide="edit-3"
+                                        class="w-4 h-4"></i> Edit Profile</button>
+                                <button class="btn-primary gap-2"><i data-lucide="share-2" class="w-4 h-4"></i>
+                                    Share</button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-6 mt-6 pt-6 border-t border-slate-700 text-sm">
+                            <div class="flex items-center gap-2 text-slate-400">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i> Bangalore, India
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> Joined 2018
+                            </div>
+                        </div>
+
+                        <!-- Stats Row -->
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+                            <div class="p-4 bg-slate-800/30 rounded-xl border border-slate-700">
+                                <p class="text-sm text-slate-400 mb-1">Students</p>
+                                <p class="text-2xl font-bold text-white">12,500</p>
+                            </div>
+                            <div class="p-4 bg-slate-800/30 rounded-xl border border-slate-700">
+                                <p class="text-sm text-slate-400 mb-1">Faculty</p>
+                                <p class="text-2xl font-bold text-white">450</p>
+                            </div>
+                            <div class="p-4 bg-slate-800/30 rounded-xl border border-slate-700">
+                                <p class="text-sm text-slate-400 mb-1">Programs</p>
+                                <p class="text-2xl font-bold text-white">32</p>
+                            </div>
+                            <div class="p-4 bg-slate-800/30 rounded-xl border border-slate-700">
+                                <p class="text-sm text-slate-400 mb-1">Partners</p>
+                                <p class="text-2xl font-bold text-white">15</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <div class="flex gap-2 border-b border-slate-700">
+                    <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+                    <button class="tab-btn" onclick="switchTab('academic', this)">Academic Details</button>
+                    <button class="tab-btn" onclick="switchTab('performance', this)">Performance</button>
+                </div>
+
+                <!-- Tab: Overview -->
+                <div id="overview" class="tab-content active space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-bg-card border border-slate-700 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-white mb-4">Institution Details</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between border-b border-slate-700/50 pb-3">
+                                    <span class="text-slate-400">Type</span>
+                                    <span class="text-white">Private University</span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-700/50 pb-3">
+                                    <span class="text-slate-400">Establishment Year</span>
+                                    <span class="text-white">1998</span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-700/50 pb-3">
+                                    <span class="text-slate-400">Accreditation</span>
+                                    <span class="text-emerald-400 font-bold">NAAC A++</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Website</span>
+                                    <a href="#" class="text-blue-400 hover:underline">www.git.edu</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-bg-card border border-slate-700 rounded-2xl p-6">
+                            <h3 class="text-lg font-bold text-white mb-4">Active MoUs</h3>
+                            <div class="space-y-3">
+                                <div
+                                    class="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg border border-slate-700/50">
+                                    <span class="text-white font-medium">Microsoft</span>
+                                    <span
+                                        class="px-2 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded border border-emerald-500/20">Active</span>
+                                </div>
+                                <div
+                                    class="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg border border-slate-700/50">
+                                    <span class="text-white font-medium">IBM</span>
+                                    <span
+                                        class="px-2 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded border border-emerald-500/20">Active</span>
+                                </div>
+                                <div
+                                    class="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg border border-slate-700/50">
+                                    <span class="text-white font-medium">DoMoreLabs</span>
+                                    <span
+                                        class="px-2 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded border border-emerald-500/20">Active</span>
+                                </div>
+                                <div
+                                    class="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg border border-slate-700/50">
+                                    <span class="text-white font-medium">TCS</span>
+                                    <span
+                                        class="px-2 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded border border-emerald-500/20">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Academic Details -->
+                <div id="academic" class="tab-content">
+                    <div class="bg-bg-card border border-slate-700 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-6">Departments</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Department Cards -->
+                            <div
+                                class="p-4 bg-slate-800/30 border border-slate-700 rounded-xl hover:border-slate-500 transition-colors">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <h4 class="text-white font-bold">Computer Science</h4>
+                                </div>
+                                <p class="text-slate-400 text-sm">12 Programs • 45 Faculty</p>
+                            </div>
+                            <div
+                                class="p-4 bg-slate-800/30 border border-slate-700 rounded-xl hover:border-slate-500 transition-colors">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <h4 class="text-white font-bold">Electronics & Comm.</h4>
+                                </div>
+                                <p class="text-slate-400 text-sm">12 Programs • 45 Faculty</p>
+                            </div>
+                            <div
+                                class="p-4 bg-slate-800/30 border border-slate-700 rounded-xl hover:border-slate-500 transition-colors">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <h4 class="text-white font-bold">Mechanical Eng.</h4>
+                                </div>
+                                <p class="text-slate-400 text-sm">12 Programs • 45 Faculty</p>
+                            </div>
+                            <div
+                                class="p-4 bg-slate-800/30 border border-slate-700 rounded-xl hover:border-slate-500 transition-colors">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <h4 class="text-white font-bold">Civil Eng.</h4>
+                                </div>
+                                <p class="text-slate-400 text-sm">12 Programs • 45 Faculty</p>
+                            </div>
+                            <div
+                                class="p-4 bg-slate-800/30 border border-slate-700 rounded-xl hover:border-slate-500 transition-colors">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <h4 class="text-white font-bold">Biotechnology</h4>
+                                </div>
+                                <p class="text-slate-400 text-sm">12 Programs • 45 Faculty</p>
+                            </div>
+                            <div
+                                class="p-4 bg-slate-800/30 border border-slate-700 rounded-xl hover:border-slate-500 transition-colors">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <h4 class="text-white font-bold">Business Administration</h4>
+                                </div>
+                                <p class="text-slate-400 text-sm">12 Programs • 45 Faculty</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Performance -->
+                <div id="performance" class="tab-content">
+                    <div class="bg-bg-card border border-slate-700 rounded-2xl p-6">
+                        <div class="flex items-center gap-2 mb-6">
+                            <i data-lucide="trending-up" class="text-emerald-400 w-6 h-6"></i>
+                            <h3 class="text-lg font-bold text-white">Yearly Performance</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="p-6 bg-slate-800/30 rounded-xl border border-slate-700 text-center">
+                                <h4 class="text-slate-400 mb-2">Placement Rate</h4>
+                                <div class="text-4xl font-bold text-emerald-400">92%</div>
+                                <div class="text-sm text-emerald-500/70 mt-1">↑ 5% from last year</div>
+                            </div>
+                            <div class="p-6 bg-slate-800/30 rounded-xl border border-slate-700 text-center">
+                                <h4 class="text-slate-400 mb-2">Research Output</h4>
+                                <div class="text-4xl font-bold text-blue-400">340+</div>
+                                <div class="text-sm text-blue-500/70 mt-1">Papers Published</div>
+                            </div>
+                            <div class="p-6 bg-slate-800/30 rounded-xl border border-slate-700 text-center">
+                                <h4 class="text-slate-400 mb-2">Student Satisfaction</h4>
+                                <div class="text-4xl font-bold text-purple-400">4.8/5</div>
+                                <div class="text-sm text-purple-500/70 mt-1">Based on surveys</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check Auth
+        const userJson = localStorage.getItem('currentUser');
+        if (userJson) {
+            const user = JSON.parse(userJson);
+            document.getElementById('user-display-name').textContent = user.displayName;
+            document.getElementById('user-role-display').textContent = 'Institution';
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Render Sidebar Links for Institution
+        const sidebarLinks = document.getElementById('sidebar-links');
+        const links = [
+            { name: 'Overview', icon: 'layout-dashboard', href: 'institution_dashboard.html' },
+            { name: 'Faculty', icon: 'user-check', href: 'institution_faculty.html' },
+            { name: 'Students', icon: 'users', href: 'institution_students.html' },
+            { name: 'Programs', icon: 'book-open', href: 'institution_programs.html' },
+            { name: 'Performance', icon: 'bar-chart-2', href: 'institution_performance.html' },
+            { name: 'Profile', icon: 'user', href: 'institution_profile.html' }
+        ];
+
+        links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors';
+            if (window.location.href.includes(link.href)) {
+                a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white bg-blue-600';
+            }
+            a.innerHTML = `<i data-lucide="${link.icon}" class="w-4 h-4"></i> ${link.name}`;
+            sidebarLinks.appendChild(a);
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabId, btn) {
+            // Remove active classes
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            // Add active class to clicked button and target content
+            btn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
