@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DoMoreLabs</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        accent: "#8b5cf6",
+                        "accent-dark": "#7c3aed",
+                        "bg-dark": "#0f172a",
+                        "bg-card": "#1e293b",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn-outline {
+                 @apply bg-transparent border border-slate-700 text-white hover:bg-slate-800 transition-colors;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-dark text-white font-sans antialiased overflow-hidden selection:bg-blue-600 selection:text-white">
+    <!-- Authenticated Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0f172a] border-b border-white/10 py-4">
+        <div class="w-full px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 w-50">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/logo.png" alt="DoMoreLabs Logo" class="h-32 w-auto object-contain drop-shadow-lg scale-110 origin-left" />
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span id="user-display-name" class="text-sm font-medium text-slate-300 hidden md:block">User</span>
+                    <div
+                        class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 bg-slate-700 flex items-center justify-center">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <button onclick="logout()"
+                        class="btn-outline text-sm py-2 px-4 rounded-full flex items-center gap-2 text-red-400 hover:bg-red-500/10 border-red-500/50 cursor-pointer">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-20 h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card-bg border-r border-slate-700 h-full overflow-y-auto hidden md:block pb-20">
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    Menu
+                </h2>
+                <div class="space-y-1" id="sidebar-links">
+                    <!-- Links injected by JS based on role -->
+                </div>
+            </div>
+
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    General
+                </h2>
+                <div class="space-y-1">
+                    <a href="messages.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        Messages
+                    </a>
+                    <a href="settings.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        Settings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Role Badge -->
+            <div class="mt-auto px-4 pb-8">
+                <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-500">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Current Role</p>
+                            <p id="user-role-display" class="text-sm font-bold text-white capitalize">Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-white">Digital Twin & Readiness</h1>
+                        <p class="text-slate-400">Visualize your professional persona and industry standing.</p>
+                    </div>
+                    <div
+                        class="bg-slate-800/50 backdrop-blur border border-slate-700 p-2 rounded-lg flex items-center gap-2 text-sm text-slate-300">
+                        <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i>
+                        Profile Strength: <span class="text-white font-bold">Strong</span>
+                    </div>
+                </div>
+
+                <!-- Top Section: Score & Radar -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+
+                    <!-- Industry Readiness Score (Gauge) -->
+                    <div
+                        class="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                        <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                            <i data-lucide="zap" class="w-5 h-5 text-yellow-400"></i> Industry Readiness Score
+                        </h3>
+
+                        <div class="relative w-48 h-48">
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle cx="96" cy="96" r="80" stroke="currentColor" stroke-width="12"
+                                    fill="transparent" class="text-slate-800" />
+                                <circle cx="96" cy="96" r="80" stroke="currentColor" stroke-width="12"
+                                    fill="transparent" stroke-dasharray="502.65" stroke-dashoffset="110.58"
+                                    class="text-blue-500 transition-all duration-1000 ease-out"
+                                    stroke-linecap="round" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+                                <span class="text-4xl font-bold">780</span>
+                                <span class="text-xs text-slate-500">/ 1000</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <p class="text-slate-300 mb-1">Top 15% of peers</p>
+                            <p class="text-xs text-slate-500">Based on projects, skills, and certifications.</p>
+                        </div>
+                    </div>
+
+                    <!-- Skill Analysis (Radar Chart) -->
+                    <div
+                        class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 flex flex-col items-center justify-center relative">
+                        <h3 class="text-lg font-bold text-white mb-2 self-start flex items-center gap-2">
+                            <i data-lucide="target" class="w-5 h-5 text-red-400"></i> Skill Benchmark
+                        </h3>
+
+                        <div class="w-[300px] h-[300px] relative">
+                            <!-- Simplified Radar Chart Representation for Static HTML -->
+                            <svg width="300" height="300" viewBox="0 0 300 300" class="w-full h-full">
+                                <!-- Background Grid (Simulated) -->
+                                <circle cx="150" cy="150" r="20" stroke="#334155" stroke-width="1" fill="none" />
+                                <circle cx="150" cy="150" r="40" stroke="#334155" stroke-width="1" fill="none" />
+                                <circle cx="150" cy="150" r="60" stroke="#334155" stroke-width="1" fill="none" />
+                                <circle cx="150" cy="150" r="80" stroke="#334155" stroke-width="1" fill="none" />
+                                <circle cx="150" cy="150" r="100" stroke="#334155" stroke-width="1" fill="none" />
+
+                                <!-- Axes -->
+                                <line x1="150" y1="150" x2="150" y2="50" stroke="#334155" stroke-width="1" />
+                                <line x1="150" y1="150" x2="245" y2="120" stroke="#334155" stroke-width="1" />
+                                <line x1="150" y1="150" x2="210" y2="230" stroke="#334155" stroke-width="1" />
+                                <line x1="150" y1="150" x2="90" y2="230" stroke="#334155" stroke-width="1" />
+                                <line x1="150" y1="150" x2="55" y2="120" stroke="#334155" stroke-width="1" />
+
+                                <!-- Labels -->
+                                <text x="150" y="40" text-anchor="middle" fill="#94a3b8" font-size="10">Coding</text>
+                                <text x="255" y="120" text-anchor="start" fill="#94a3b8" font-size="10">Problem
+                                    Solving</text>
+                                <text x="220" y="240" text-anchor="start" fill="#94a3b8"
+                                    font-size="10">Communication</text>
+                                <text x="80" y="240" text-anchor="end" fill="#94a3b8" font-size="10">Teamwork</text>
+                                <text x="45" y="120" text-anchor="end" fill="#94a3b8" font-size="10">Project Mgmt</text>
+
+                                <!-- Data Polygon (Approximate) -->
+                                <polygon points="150,65 220,130 190,200 80,210 90,150" fill="rgba(168, 85, 247, 0.2)"
+                                    stroke="#a855f7" stroke-width="2" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- AI Recommendations -->
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400"></i> AI Recommendations
+                        </h3>
+                        <p class="text-sm text-slate-400 mb-4">Focus on these areas to boost your readiness score by +50
+                            points.</p>
+
+                        <div class="space-y-3">
+                            <div
+                                class="p-3 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:bg-slate-800 transition-colors cursor-pointer group">
+                                <div class="flex items-start gap-3">
+                                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400 mt-1">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4
+                                            class="text-white font-bold text-sm group-hover:text-blue-400 transition-colors">
+                                            Complete "Project Management 101"</h4>
+                                        <p class="text-xs text-slate-500 mt-1">To improve your Project Mgmt score.</p>
+                                    </div>
+                                    <i data-lucide="chevron-right"
+                                        class="w-4 h-4 text-slate-600 group-hover:text-white"></i>
+                                </div>
+                            </div>
+
+                            <div
+                                class="p-3 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:bg-slate-800 transition-colors cursor-pointer group">
+                                <div class="flex items-start gap-3">
+                                    <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400 mt-1">
+                                        <i data-lucide="award" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4
+                                            class="text-white font-bold text-sm group-hover:text-purple-400 transition-colors">
+                                            Earn "Communication Pro" Badge</h4>
+                                        <p class="text-xs text-slate-500 mt-1">Participate in 2 more webinars.</p>
+                                    </div>
+                                    <i data-lucide="chevron-right"
+                                        class="w-4 h-4 text-slate-600 group-hover:text-white"></i>
+                                </div>
+                            </div>
+
+                            <div
+                                class="p-3 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:bg-slate-800 transition-colors cursor-pointer group">
+                                <div class="flex items-start gap-3">
+                                    <div class="p-2 bg-orange-500/10 rounded-lg text-orange-400 mt-1">
+                                        <i data-lucide="target" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4
+                                            class="text-white font-bold text-sm group-hover:text-orange-400 transition-colors">
+                                            Apply for "Smart India Hackathon"</h4>
+                                        <p class="text-xs text-slate-500 mt-1">Boosts Problem Solving & Teamwork.</p>
+                                    </div>
+                                    <i data-lucide="chevron-right"
+                                        class="w-4 h-4 text-slate-600 group-hover:text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Section: Badges & Gap Analysis -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-6">Unlocked Badges</h3>
+                        <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-4">
+                            <!-- Badges -->
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg group-hover:scale-110 transition-transform">
+                                    <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <span class="text-xs text-slate-400 text-center">Badge 1</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg group-hover:scale-110 transition-transform">
+                                    <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <span class="text-xs text-slate-400 text-center">Badge 2</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg group-hover:scale-110 transition-transform">
+                                    <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <span class="text-xs text-slate-400 text-center">Badge 3</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                                <div
+                                    class="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800 grayscale opacity-50 shadow-lg group-hover:scale-110 transition-transform">
+                                    <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <span class="text-xs text-slate-400 text-center">Badge 4</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4">Role Fit: Full Stack Developer</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-slate-300">Frontend (React)</span>
+                                    <span class="text-emerald-400">90% Match</span>
+                                </div>
+                                <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-emerald-500 w-[90%]"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-slate-300">Backend (Node.js)</span>
+                                    <span class="text-blue-400">75% Match</span>
+                                </div>
+                                <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-blue-500 w-[75%]"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-slate-300">Database (SQL/NoSQL)</span>
+                                    <span class="text-orange-400">50% Match</span>
+                                </div>
+                                <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-orange-500 w-[50%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check Auth
+        const userJson = localStorage.getItem('currentUser');
+        if (!userJson) {
+            window.location.href = 'login.html';
+        }
+
+        const user = JSON.parse(userJson);
+        document.getElementById('user-display-name').textContent = user.displayName;
+        document.getElementById('user-role-display').textContent = user.role.replace(/_/g, ' ').toLowerCase();
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Render Sidebar Links for Student
+        const sidebarLinks = document.getElementById('sidebar-links');
+        const links = [
+            { name: 'Dashboard', icon: 'layout-dashboard', href: 'student_dashboard.html' },
+            { name: 'My Projects', icon: 'briefcase', href: 'student_projects.html' },
+            { name: 'Learning', icon: 'book-open', href: 'student_learning.html' },
+            { name: 'Opportunities', icon: 'zap', href: 'student_opportunities.html' },
+            { name: 'Digital Twin', icon: 'layers', href: 'student_digital_twin.html' }
+        ];
+
+        links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors';
+            if (window.location.href.includes(link.href)) {
+                a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white bg-blue-600';
+            }
+            a.innerHTML = `<i data-lucide="${link.icon}" class="w-4 h-4"></i> ${link.name}`;
+            sidebarLinks.appendChild(a);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

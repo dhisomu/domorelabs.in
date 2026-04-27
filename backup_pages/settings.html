@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DoMoreLabs</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        accent: "#8b5cf6",
+                        "accent-dark": "#7c3aed",
+                        "bg-dark": "#0f172a",
+                        "bg-card": "#1e293b",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn-outline {
+                 @apply bg-transparent border border-slate-700 text-white hover:bg-slate-800 transition-colors;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-dark text-white font-sans antialiased overflow-hidden selection:bg-blue-600 selection:text-white">
+    <!-- Authenticated Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0f172a] border-b border-white/10 py-4">
+        <div class="w-full px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 w-50">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/logo.png" alt="DoMoreLabs Logo" class="h-32 w-auto object-contain drop-shadow-lg scale-110 origin-left" />
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span id="user-display-name" class="text-sm font-medium text-slate-300 hidden md:block">User</span>
+                    <div
+                        class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 bg-slate-700 flex items-center justify-center">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <button onclick="logout()"
+                        class="btn-outline text-sm py-2 px-4 rounded-full flex items-center gap-2 text-red-400 hover:bg-red-500/10 border-red-500/50 cursor-pointer">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-20 h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card-bg border-r border-slate-700 h-full overflow-y-auto hidden md:block pb-20">
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    Menu
+                </h2>
+                <div class="space-y-1" id="sidebar-links">
+                    <!-- Links injected by JS based on role -->
+                </div>
+            </div>
+
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    General
+                </h2>
+                <div class="space-y-1">
+                    <a href="messages.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        Messages
+                    </a>
+                    <a href="settings.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 transition-colors">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        Settings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Role Badge -->
+            <div class="mt-auto px-4 pb-8">
+                <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-500">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Current Role</p>
+                            <p id="user-role-display" class="text-sm font-bold text-white capitalize">Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto">
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold text-white mb-2">Settings</h1>
+                    <p class="text-slate-400">Manage your account preferences and application settings.</p>
+                </header>
+
+                <div class="space-y-6">
+                    <!-- Profile Settings -->
+                    <div class="bg-slate-800/50 rounded-xl border border-slate-700 p-6">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-3 bg-blue-500/10 rounded-lg text-blue-400">
+                                <i data-lucide="user" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-white">Profile Settings</h2>
+                                <p class="text-sm text-slate-400">Update your personal information</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Display Name</label>
+                                <input id="profile-name" type="text"
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
+                                <input id="profile-email" type="email"
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                                    disabled>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Role</label>
+                                <input id="profile-role" type="text"
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-slate-400 focus:outline-none cursor-not-allowed"
+                                    disabled>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Phone Number</label>
+                                <input type="tel" placeholder="+1 (555) 000-0000"
+                                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button
+                                class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Appearance & Notifications -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-800/50 rounded-xl border border-slate-700 p-6">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="p-3 bg-purple-500/10 rounded-lg text-purple-400">
+                                    <i data-lucide="bell" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-white">Notifications</h2>
+                                    <p class="text-sm text-slate-400">Manage your alerts</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-300">Email Notifications</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" checked>
+                                        <div
+                                            class="w-11 h-6 bg-slate-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-300">New Project Alerts</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" checked>
+                                        <div
+                                            class="w-11 h-6 bg-slate-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-300">Marketing Updates</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer">
+                                        <div
+                                            class="w-11 h-6 bg-slate-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 rounded-xl border border-slate-700 p-6">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400">
+                                    <i data-lucide="shield" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-white">Security</h2>
+                                    <p class="text-sm text-slate-400">Protect your account</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <button
+                                    class="w-full text-left px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 hover:text-white transition-colors flex justify-between items-center group">
+                                    <span>Change Password</span>
+                                    <i data-lucide="chevron-right"
+                                        class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                                </button>
+                                <button
+                                    class="w-full text-left px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 hover:text-white transition-colors flex justify-between items-center group">
+                                    <span>Two-Factor Authentication</span>
+                                    <i data-lucide="chevron-right"
+                                        class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                                </button>
+                                <button
+                                    class="w-full text-left px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-red-400 hover:text-red-300 transition-colors flex justify-between items-center group border border-red-900/30 hover:bg-red-900/10">
+                                    <span>Delete Account</span>
+                                    <i data-lucide="alert-triangle"
+                                        class="w-4 h-4 text-red-500 group-hover:text-red-400 transition-colors"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check Auth
+        const userJson = localStorage.getItem('currentUser');
+        if (!userJson) {
+            window.location.href = 'login.html';
+        }
+
+        const user = JSON.parse(userJson);
+        document.getElementById('user-display-name').textContent = user.displayName;
+        document.getElementById('user-role-display').textContent = user.role.replace(/_/g, ' ').toLowerCase();
+
+        // Fill Profile Form
+        document.getElementById('profile-name').value = user.displayName;
+        document.getElementById('profile-email').value = user.email;
+        document.getElementById('profile-role').value = user.role.replace(/_/g, ' ');
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Render Sidebar Links based on Role (Simplified Logic for common page)
+        const sidebarLinks = document.getElementById('sidebar-links');
+        const role = user.role;
+        let links = [];
+
+        const ROLES = {
+            SUPER_ADMIN: 'SUPER_ADMIN',
+            ADMIN: 'ADMIN',
+            INSTITUTION: 'INSTITUTION',
+            FACULTY: 'FACULTY',
+            STUDENT: 'STUDENT',
+            INDUSTRY_PARTNER: 'INDUSTRY_PARTNER'
+        };
+
+        if (role === ROLES.SUPER_ADMIN || role === ROLES.ADMIN) {
+            links = [
+                { name: 'Overview', icon: 'layout-dashboard', href: 'admin_dashboard.html' },
+                { name: 'Users', icon: 'users', href: '#' },
+                { name: 'Institutions', icon: 'building-2', href: '#' },
+                { name: 'Programs', icon: 'layers', href: '#' },
+                { name: 'Content', icon: 'file-text', href: '#' },
+                { name: 'Reports', icon: 'bar-chart-2', href: '#' }
+            ];
+        } else if (role === ROLES.STUDENT) {
+            links = [
+                { name: 'Dashboard', icon: 'layout-dashboard', href: 'student_dashboard.html' },
+                { name: 'My Projects', icon: 'briefcase', href: '#' },
+                { name: 'Learning', icon: 'book-open', href: '#' },
+                { name: 'Opportunities', icon: 'zap', href: '#' },
+                { name: 'Digital Twin', icon: 'layers', href: '#' }
+            ];
+        } else if (role === ROLES.FACULTY) {
+            links = [
+                { name: 'Overview', icon: 'layout-dashboard', href: 'faculty_dashboard.html' },
+                { name: 'My Students', icon: 'users', href: '#' },
+                { name: 'Projects', icon: 'layers', href: '#' },
+                { name: 'Research', icon: 'microscope', href: '#' },
+                { name: 'Evaluations', icon: 'clipboard-check', href: '#' }
+            ];
+        } else if (role === ROLES.INSTITUTION) {
+            links = [
+                { name: 'Overview', icon: 'layout-dashboard', href: 'institution_dashboard.html' },
+                { name: 'Faculty', icon: 'user-check', href: '#' },
+                { name: 'Students', icon: 'users', href: '#' },
+                { name: 'Programs', icon: 'book-open', href: '#' },
+                { name: 'Performance', icon: 'bar-chart-2', href: '#' }
+            ];
+        } else if (role === ROLES.INDUSTRY_PARTNER) {
+            links = [
+                { name: 'Overview', icon: 'layout-dashboard', href: 'industry_dashboard.html' },
+                { name: 'Explore Talent', icon: 'users', href: '#' },
+                { name: 'My Projects', icon: 'layers', href: '#' },
+                { name: 'Challenges', icon: 'zap', href: '#' },
+                { name: 'Proposals', icon: 'file-text', href: '#' }
+            ];
+        }
+
+        links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors';
+            // Highlight based on current page
+            if (window.location.href.includes(link.href) && link.href !== '#') {
+                // a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white bg-blue-600';
+            }
+            a.innerHTML = `<i data-lucide="${link.icon}" class="w-4 h-4"></i> ${link.name}`;
+            sidebarLinks.appendChild(a);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

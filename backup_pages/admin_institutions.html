@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DoMoreLabs</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        accent: "#8b5cf6",
+                        "accent-dark": "#7c3aed",
+                        "bg-dark": "#0f172a",
+                        "bg-card": "#1e293b",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn-outline {
+                 @apply bg-transparent border border-slate-700 text-white hover:bg-slate-800 transition-colors;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-dark text-white font-sans antialiased overflow-hidden selection:bg-blue-600 selection:text-white">
+    <!-- Authenticated Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0f172a] border-b border-white/10 py-4">
+        <div class="w-full px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 w-50">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/logo.png" alt="DoMoreLabs Logo" class="h-32 w-auto object-contain drop-shadow-lg scale-110 origin-left" />
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span id="user-display-name" class="text-sm font-medium text-slate-300 hidden md:block">User</span>
+                    <div
+                        class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 bg-slate-700 flex items-center justify-center">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <button onclick="logout()"
+                        class="btn-outline text-sm py-2 px-4 rounded-full flex items-center gap-2 text-red-400 hover:bg-red-500/10 border-red-500/50 cursor-pointer">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-20 h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card-bg border-r border-slate-700 h-full overflow-y-auto hidden md:block pb-20">
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    Menu
+                </h2>
+                <div class="space-y-1" id="sidebar-links">
+                    <!-- Links injected by JS based on role -->
+                </div>
+            </div>
+
+            <div class="px-4 mb-6">
+                <h2 class="text-xs uppercase text-slate-500 font-bold tracking-wider mb-4">
+                    General
+                </h2>
+                <div class="space-y-1">
+                    <a href="messages.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        Messages
+                    </a>
+                    <a href="settings.html"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        Settings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Role Badge -->
+            <div class="mt-auto px-4 pb-8">
+                <div class="p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-500">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Current Role</p>
+                            <p id="user-role-display" class="text-sm font-bold text-white capitalize">Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto">
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold text-white mb-2">Institution Management</h1>
+                    <p class="text-slate-400">Manage approvals, profiles, and performance metrics.</p>
+                </header>
+
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-12 text-center">
+                    <div class="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="building-2" class="w-8 h-8 text-slate-400"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold text-white mb-2">Institution Features Coming Soon</h2>
+                    <p class="text-slate-400 max-w-md mx-auto">
+                        This module will allow you to onboard new institutions, verify their credentials, and monitor
+                        their performance.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check Auth
+        const userJson = localStorage.getItem('currentUser');
+        if (!userJson) {
+            window.location.href = 'login.html';
+        }
+
+        const user = JSON.parse(userJson);
+        document.getElementById('user-display-name').textContent = user.displayName;
+        document.getElementById('user-role-display').textContent = user.role.replace(/_/g, ' ').toLowerCase();
+
+        // Redirect if not admin
+        if (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN') {
+            // Allow access for testing, or redirect to correct dashboard
+            // window.location.href = 'dashboard.html'; 
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Render Sidebar Links for Admin
+        const sidebarLinks = document.getElementById('sidebar-links');
+        const links = [
+            { name: 'Overview', icon: 'layout-dashboard', href: 'admin_dashboard.html' },
+            { name: 'User Management', icon: 'users', href: 'admin_users.html' },
+            { name: 'Institutions', icon: 'building-2', href: 'admin_institutions.html' },
+            { name: 'Programs', icon: 'layers', href: 'admin_programs.html' },
+            { name: 'Content', icon: 'file-text', href: 'admin_content.html' },
+            { name: 'Reports', icon: 'bar-chart', href: 'admin_reports.html' }
+        ];
+
+        links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors';
+            if (window.location.href.includes(link.href)) {
+                a.className = 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white bg-blue-600';
+            }
+            a.innerHTML = `<i data-lucide="${link.icon}" class="w-4 h-4"></i> ${link.name}`;
+            sidebarLinks.appendChild(a);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
