@@ -1,0 +1,57 @@
+FROM php:8.3-fpm-bullseye
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    libicu-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    zlib1g-dev \
+    libmariadb-dev \
+    git \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    gd \
+    intl \
+    mysqli \
+    zip \
+    opcache \
+    soap \
+    exif \
+    bcmath
+
+# Set recommended PHP settings for Moodle
+RUN { \
+    echo 'opcache.enable=1'; \
+    echo 'opcache.memory_consumption=128'; \
+    echo 'opcache.interned_strings_buffer=8'; \
+    echo 'opcache.max_accelerated_files=10000'; \
+    echo 'opcache.revalidate_freq=60'; \
+    echo 'opcache.fast_shutdown=1'; \
+    echo 'max_execution_time=300'; \
+    echo 'memory_limit=512M'; \
+    echo 'post_max_size=100M'; \
+    echo 'upload_max_filesize=100M'; \
+    echo 'max_input_vars=5000'; \
+    } > /usr/local/etc/php/conf.d/moodle.ini
+
+# Download Moodle
+WORKDIR /var/www/html
+RUN git clone -b MOODLE_404_STABLE --depth 1 https://github.com/moodle/moodle.git . \
+    && chown -R www-data:www-data /var/www/html
+
+# Create moodledata directory
+RUN mkdir -p /var/www/moodledata \
+    && chown -R www-data:www-data /var/www/moodledata \
+    && chmod -R 777 /var/www/moodledata
+
+VOLUME ["/var/www/html", "/var/www/moodledata"]
+
+CMD ["php-fpm"]
