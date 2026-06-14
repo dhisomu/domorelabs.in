@@ -1,21 +1,57 @@
 name: dml-prod
 
 services:
+  dml-prod-db:
+    image: mariadb:latest
+    container_name: dml-prod-db
+    restart: always
+    volumes:
+      - ./mariadb_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_pass_123
+      - MYSQL_DATABASE=moodle
+      - MYSQL_USER=moodle_user
+      - MYSQL_PASSWORD=moodle_pass_123
+    networks:
+      dml-net:
+        ipv4_address: 172.40.0.20
+
   dml-prod-app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.moodle
+    container_name: dml-prod-app
+    restart: always
+    volumes:
+      - moodle_data:/var/www/html
+      - moodledata_data:/var/www/moodledata
+    depends_on:
+      - dml-prod-db
+    networks:
+      dml-net:
+        ipv4_address: 172.40.0.10
+
+  dml-prod-nginx:
+    image: nginx:stable-alpine
     container_name: domorelabs.in
     restart: always
-    env_file:
-      - .env
+    volumes:
+      - moodle_data:/var/www/html:ro
+      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dml-prod.rule=Host(`domorelabs.in`) || Host(`www.domorelabs.in`)"
       - "traefik.http.routers.dml-prod.tls=true"
       - "traefik.http.routers.dml-prod.tls.certresolver=lets-encrypt"
-      - "traefik.http.services.dml-prod.loadbalancer.server.port=8000"
+    depends_on:
+      - dml-prod-app
     networks:
       dml-net:
-        ipv4_address: 172.40.0.10
+        ipv4_address: 172.40.0.30
+
+volumes:
+  moodle_data:
+  moodledata_data:
 
 networks:
   dml-net:
