@@ -1,26 +1,62 @@
-name: dml-dev
+name: dml-stage
 
 services:
-  dml-dev-app:
-    build: .
-    container_name: dev.domorelabs.in
+  dml-stage-db:
+    image: mariadb:latest
+    container_name: dml-stage-db
     restart: always
-    env_file:
-      - .env
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dml-dev.rule=Host(`dev.domorelabs.in`)"
-      - "traefik.http.routers.dml-dev.tls=true"
-      - "traefik.http.routers.dml-dev.tls.certresolver=lets-encrypt"
-      - "traefik.http.services.dml-dev.loadbalancer.server.port=8000"
+    volumes:
+      - ./mariadb_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_pass_123
+      - MYSQL_DATABASE=moodle
+      - MYSQL_USER=moodle_user
+      - MYSQL_PASSWORD=moodle_pass_123
     networks:
       dml-net:
-        ipv4_address: 172.40.2.10
+        ipv4_address: 172.40.1.20
+
+  dml-stage-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.moodle
+    container_name: dml-stage-app
+    restart: always
+    volumes:
+      - moodle_data:/var/www/html
+      - moodledata_data:/var/www/moodledata
+    depends_on:
+      - dml-stage-db
+    networks:
+      dml-net:
+        ipv4_address: 172.40.1.10
+
+  dml-stage-nginx:
+    image: nginx:stable-alpine
+    container_name: stage.domorelabs.in
+    restart: always
+    volumes:
+      - moodle_data:/var/www/html:ro
+      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dml-stage.rule=Host(`stage.domorelabs.in`)"
+      - "traefik.http.routers.dml-stage.tls=true"
+      - "traefik.http.routers.dml-stage.tls.certresolver=lets-encrypt"
+    depends_on:
+      - dml-stage-app
+    networks:
+      dml-net:
+        ipv4_address: 172.40.1.30
+
+volumes:
+  moodle_data:
+  moodledata_data:
 
 networks:
   dml-net:
     driver: bridge
-    name: dml-dev-net
+    name: dml-stage-net
     ipam:
       config:
-        - subnet: 172.40.2.0/24
+        - subnet: 172.40.1.0/24
